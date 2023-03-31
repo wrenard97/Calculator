@@ -29,19 +29,35 @@ export default function App() {
         break;
 
       case "+":
-        setOutput(Output + value.toString());
+        if (!Output.includes("+")) {
+          setOutput(Output + value.toString());
+        } else {
+          null;
+        }
         break;
 
       case "-":
-        setOutput(Output + value.toString());
+        if (!Output.includes("-")) {
+          setOutput(Output + value.toString());
+        } else {
+          null;
+        }
         break;
 
       case "x":
-        setOutput(Output + value.toString());
+        if (!Output.includes("x")) {
+          setOutput(Output + value.toString());
+        } else {
+          null;
+        }
         break;
 
       case "/":
-        setOutput(Output + value.toString());
+        if (!Output.includes("/")) {
+          setOutput(Output + value.toString());
+        } else {
+          null;
+        }
         break;
 
       case "=":
