@@ -1,46 +1,48 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Buttonstyle from "./component/Buttonstyle";
 
 export default function App() {
-  const [Output, setOutput] = useState("");
+  const [Output, setOutput] = useState("0");
   const [operator, setOperator] = useState("");
   const [preValue, setPreValue] = useState("");
   const [display, setDisplay] = useState("0");
 
-  function handleClick(value: string): void {
-    switch (value) {
-      case "C":
-        setOutput("0");
-        setOperator("");
-        setPreValue("");
-        break;
+  function handleClick(value: string) {
+    const handleCallback = useCallback(() => {
+      switch (value) {
+        case "C":
+          setOutput("0");
+          setOperator("");
+          setPreValue("");
+          break;
 
-      case "+-":
-        setOutput((-1 * parseInt(Output)).toString());
-        break;
-      case ".":
-        if (!Output.includes(".")) {
-          setOutput(Output + ".");
-        }
-        break;
+        case "+-":
+          setOutput((-1 * parseInt(Output)).toString());
+          break;
+        case ".":
+          if (!Output.includes(".")) {
+            setOutput(Output + ".");
+          }
+          break;
 
-      case "%":
-        setOutput((Number(Output) / 100).toString());
-        break;
+        case "%":
+          setOutput((Number(Output) / 100).toString());
+          break;
 
-      case "+":
-      case "-":
-      case "*":
-      case "/":
-        operatorClick(value);
-        break;
-      case "=":
-        equal();
-        break;
-      default:
-        Output !== "0" ? setOutput(Output + value) : setOutput(value);
-        break;
-    }
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+          operatorClick(value);
+          break;
+        case "=":
+          equal();
+          break;
+        default:
+          Output !== "0" ? setOutput(Output + value) : setOutput(value);
+          break;
+      }
+    }, [value, Output, operator, preValue, display]);
   }
 
   const operatorClick = (buttonValue: string) => {
@@ -85,7 +87,6 @@ export default function App() {
           disabled
           type="text"
           value={display ? display : preValue}
-          placeholder="0"
         />
         <div className="grid grid-cols-4 grid-rows-5 gap-1 w-52">
           {[
