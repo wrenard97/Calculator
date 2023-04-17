@@ -3,36 +3,33 @@ import Buttonstyle from "./component/Buttonstyle";
 
 export const buttonContext = createContext<any>(null);
 export default function App() {
-  const [Output, setOutput] = useState("0");
+  const [currentValue, setcurrentValue] = useState("0");
   const [operator, setOperator] = useState("");
-  const [preValue, setPreValue] = useState("");
+  const [prevValue, setPrevValue] = useState("");
   const [display, setDisplay] = useState("0");
 
   const handleClick = useCallback(
     (value: string) => {
       switch (value) {
         case "C":
-          setOutput("0");
+          setcurrentValue("0");
           setOperator("");
-          setPreValue("");
+          setPrevValue("");
           break;
-
         case "+-":
-          setOutput((-1 * parseInt(Output)).toString());
+          setcurrentValue((-1 * parseInt(currentValue)).toString());
           break;
         case ".":
-          if (!Output.includes(".")) {
-            setOutput(Output + ".");
+          if (!currentValue.includes(".")) {
+            setcurrentValue(currentValue + ".");
           }
           break;
-
         case "%":
-          setOutput((Number(Output) / 100).toString());
+          setcurrentValue((Number(currentValue) / 100).toString());
           break;
-
         case "+":
         case "-":
-        case "*":
+        case "x":
         case "/":
           operatorClick(value);
           break;
@@ -40,27 +37,31 @@ export default function App() {
           equal();
           break;
         default:
-          Output !== "0" ? setOutput(Output + value) : setOutput(value);
+          currentValue !== "0"
+            ? setcurrentValue(currentValue + value)
+            : setcurrentValue(value);
           break;
       }
     },
-    [Output, operator, preValue]
+    [currentValue, operator, prevValue]
   );
 
   const operatorClick = (buttonValue: string) => {
     setOperator(buttonValue);
-
-    if (preValue !== "") {
+    console.log("kl ");
+    if (prevValue !== "") {
+      setcurrentValue(" ");
+      equal();
     } else {
-      setPreValue(Output);
-      setOutput(" ");
+      setPrevValue(currentValue);
+      setcurrentValue(" ");
     }
   };
 
   const equal = () => {
     let equals = 0;
-    const prevalues = parseFloat(preValue);
-    const outputs = parseFloat(Output);
+    const prevalues = parseFloat(prevValue);
+    const outputs = parseFloat(currentValue);
 
     if (operator === "+") {
       equals = prevalues + outputs;
@@ -68,20 +69,22 @@ export default function App() {
       equals = prevalues - outputs;
     } else if (operator === "/") {
       equals = prevalues / outputs;
-    } else if (operator === "*") {
+    } else if (operator === "x") {
       equals = prevalues * outputs;
     }
 
     setOperator("");
-    setOutput("");
-    setPreValue(equals.toString());
+    setcurrentValue("");
+    setPrevValue(equals.toString());
   };
 
   useEffect(() => {
-    setDisplay(Output);
-  }, [Output]);
+    setDisplay(currentValue);
+  }, [currentValue]);
 
-  console.log("outout :", Output);
+  console.log("prev: " + prevValue);
+  console.log("current: " + currentValue);
+  console.log("operator: " + operator);
 
   return (
     <div className="bg-yellow-400 h-screen flex flex-row justify-center place-items-center">
@@ -90,7 +93,7 @@ export default function App() {
           className="bg-gray-700 h-12 w-52 flex flex-row text-right text-white text-3xl font-semibold rounded-md"
           disabled
           type="text"
-          value={display ? display : preValue}
+          value={display ? display : prevValue}
         />
         <div className="grid grid-cols-4 grid-rows-5 gap-1 w-52">
           <buttonContext.Provider value={{ buttonfunction: handleClick }}>
