@@ -8,31 +8,38 @@ export default function App() {
   const [prevValue, setPrevValue] = useState("");
   const [display, setDisplay] = useState("0");
 
+  //operators
   const handleClick = useCallback(
     (value: string) => {
       switch (value) {
+        //c button
         case "C":
           setcurrentValue("0");
           setOperator("");
           setPrevValue("");
           break;
+        //positive and negative
         case "+-":
           setcurrentValue((-1 * parseInt(currentValue)).toString());
           break;
+        //decimal
         case ".":
           if (!currentValue.includes(".")) {
             setcurrentValue(currentValue + ".");
           }
           break;
+        //percentage
         case "%":
           setcurrentValue((Number(currentValue) / 100).toString());
           break;
+        //operators
         case "+":
         case "-":
         case "x":
         case "/":
           operatorClick(value);
           break;
+        //equal
         case "=":
           equal();
           break;
@@ -48,9 +55,10 @@ export default function App() {
 
   const operatorClick = (buttonValue: string) => {
     setOperator(buttonValue);
-    console.log("kl ");
+
     if (prevValue !== "") {
-      setcurrentValue(" ");
+      console.log("kl ");
+
       equal();
     } else {
       setPrevValue(currentValue);
@@ -74,17 +82,12 @@ export default function App() {
     }
 
     setOperator("");
-    setcurrentValue("");
-    setPrevValue(equals.toString());
+    setPrevValue("");
+    setcurrentValue(equals.toString());
   };
-
   useEffect(() => {
     setDisplay(currentValue);
   }, [currentValue]);
-
-  console.log("prev: " + prevValue);
-  console.log("current: " + currentValue);
-  console.log("operator: " + operator);
 
   return (
     <div className="bg-yellow-400 h-screen flex flex-row justify-center place-items-center">
