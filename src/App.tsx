@@ -8,7 +8,6 @@ export default function App() {
   const [prevValue, setPrevValue] = useState("");
   const [display, setDisplay] = useState("0");
 
-  //operators
   const handleClick = useCallback(
     (value: string) => {
       switch (value) {
@@ -37,7 +36,13 @@ export default function App() {
         case "-":
         case "x":
         case "/":
-          operatorClick(value);
+          if (operator === "") {
+            setOperator(value);
+            setPrevValue(currentValue);
+            setcurrentValue("");
+          } else {
+            setOperator(value);
+          }
           break;
         //equal
         case "=":
@@ -54,15 +59,15 @@ export default function App() {
   );
 
   const operatorClick = (buttonValue: string) => {
-    setOperator(buttonValue);
-
-    if (prevValue !== "") {
-      console.log("kl ");
-
-      equal();
-    } else {
+    if (currentValue === "") {
+      setOperator(buttonValue);
+    } else if (prevValue === "") {
+      setOperator(buttonValue);
       setPrevValue(currentValue);
-      setcurrentValue(" ");
+      setcurrentValue("");
+    } else {
+      equal();
+      setOperator(buttonValue);
     }
   };
 
@@ -85,9 +90,14 @@ export default function App() {
     setPrevValue("");
     setcurrentValue(equals.toString());
   };
+
   useEffect(() => {
     setDisplay(currentValue);
   }, [currentValue]);
+
+  console.log("prev: " + prevValue);
+  console.log("current: " + currentValue);
+  console.log("operator: " + operator);
 
   return (
     <div className="bg-yellow-400 h-screen flex flex-row justify-center place-items-center">
