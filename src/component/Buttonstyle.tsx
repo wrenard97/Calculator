@@ -9,10 +9,10 @@ function Buttonstyle({ text }: IButtonStyle): JSX.Element {
   const { buttonfunction } = useContext(buttonContext);
   return (
     <button
-      className={`${
+      className={` text-white rounded-md font-semibold h-11 ${
         text === "="
-          ? "col-span-2 h-11 bg-red-700 text-white rounded-md font-semibold hover:bg-red-800"
-          : "col-span-1  h-11 bg-indigo-700 text-white rounded-md font-semibold hover:bg-indigo-800"
+          ? "col-span-2 bg-red-700 hover:bg-red-800"
+          : "col-span-1 bg-indigo-700 hover:bg-indigo-800"
       }`}
       onClick={() => buttonfunction(text)}
     >
