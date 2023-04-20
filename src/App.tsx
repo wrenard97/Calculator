@@ -58,19 +58,6 @@ export default function App() {
     [currentValue, operator, prevValue]
   );
 
-  const operatorClick = (buttonValue: string) => {
-    if (currentValue === "") {
-      setOperator(buttonValue);
-    } else if (prevValue === "") {
-      setOperator(buttonValue);
-      setPrevValue(currentValue);
-      setcurrentValue("");
-    } else {
-      equal();
-      setOperator(buttonValue);
-    }
-  };
-
   const equal = () => {
     let equals = 0;
     const prevalues = parseFloat(prevValue);
@@ -92,8 +79,14 @@ export default function App() {
   };
 
   useEffect(() => {
-    setDisplay(currentValue);
+    setDisplay(formatNumberWithCommas(currentValue));
   }, [currentValue]);
+
+  const formatNumberWithCommas = (value: string): string => {
+    const parts = value.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  };
 
   console.log("prev: " + prevValue);
   console.log("current: " + currentValue);
