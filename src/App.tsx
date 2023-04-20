@@ -19,7 +19,7 @@ export default function App() {
           break;
         //positive and negative
         case "+-":
-          setcurrentValue((-1 * parseInt(currentValue)).toString());
+          setcurrentValue((parseFloat(currentValue) * -1).toString());
           break;
         //decimal
         case ".":
@@ -82,6 +82,7 @@ export default function App() {
     setDisplay(formatNumberWithCommas(currentValue));
   }, [currentValue]);
 
+  //for comma separation
   const formatNumberWithCommas = (value: string): string => {
     const parts = value.split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
