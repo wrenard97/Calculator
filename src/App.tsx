@@ -5,7 +5,7 @@ export const buttonContext = createContext<any>(null);
 export default function App() {
   const [currentValue, setcurrentValue] = useState("0");
   const [operator, setOperator] = useState("");
-  const [prevValue, setPrevValue] = useState("");
+  const [prevValue, setPrevValue] = useState(0);
   const [display, setDisplay] = useState("0");
 
   const handleClick = useCallback(
@@ -15,7 +15,7 @@ export default function App() {
         case "C":
           setcurrentValue("0");
           setOperator("");
-          setPrevValue("");
+          setPrevValue(0);
           break;
         //positive and negative
         case "+-":
@@ -38,7 +38,7 @@ export default function App() {
         case "/":
           if (operator === "") {
             setOperator(value);
-            setPrevValue(currentValue);
+            setPrevValue(parseFloat(currentValue));
             setcurrentValue("");
           } else {
             setOperator(value);
@@ -60,7 +60,7 @@ export default function App() {
 
   const equal = () => {
     let equals = 0;
-    const prevalues = parseFloat(prevValue);
+    const prevalues = prevValue;
     const outputs = parseFloat(currentValue);
 
     if (operator === "+") {
@@ -74,13 +74,17 @@ export default function App() {
     }
 
     setOperator("");
-    setPrevValue("");
+    setPrevValue(equals);
     setcurrentValue(equals.toString());
   };
 
   useEffect(() => {
-    setDisplay(formatNumberWithCommas(currentValue));
-  }, [currentValue]);
+    setDisplay(
+      formatNumberWithCommas(
+        currentValue !== "" ? currentValue : prevValue.toString()
+      )
+    );
+  }, [currentValue, prevValue]);
 
   //for comma separation
   const formatNumberWithCommas = (value: string): string => {
