@@ -97,10 +97,6 @@ export default function App() {
     return parts.join(".");
   };
 
-  console.log("prev: " + prevValue);
-  console.log("current: " + currentValue);
-  console.log("operator: " + operator);
-
   return (
     <div className="bg-yellow-400 h-screen flex flex-row justify-center place-items-center">
       <div className="bg-gray-800 p-1 flex flex-col items-center gap-1 rounded-md">
