@@ -29,7 +29,11 @@ export default function App() {
           break;
         //percentage
         case "%":
-          setcurrentValue((Number(currentValue) / 100).toString());
+          if (isNaN(parseFloat(currentValue))) {
+            setcurrentValue("NaN");
+          } else {
+            setcurrentValue((Number(currentValue) / 100).toString());
+          }
           break;
         //operators
         case "+":
